@@ -1,0 +1,27 @@
+{
+  "name": "cfawareness",
+  "version": "1.0.0",
+  "description": "Carbon Footprint Awareness Platform - Full stack app with FastAPI backend and React frontend",
+  "private": true,
+  "scripts": {
+    "dev": "cd frontend && npm run dev",
+    "build": "cd frontend && npm run build",
+    "lint": "cd frontend && npm run lint",
+    "preview": "cd frontend && npm run preview"
+  },
+  "workspaces": [
+    "frontend"
+  ],
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "keywords": [
+    "carbon-footprint",
+    "sustainability",
+    "react",
+    "fastapi",
+    "google-cloud"
+  ],
+  "author": "sakshirajput278patil-code",
+  "license": "MIT"
+}
