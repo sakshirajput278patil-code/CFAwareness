@@ -1,9 +1,2 @@
 [tool.pytest.ini_options]
 asyncio_mode = "strict"
-
-[tool.coverage.run]
-omit = [
-    "app/services/bigquery_service.py",
-    "app/services/firestore_service.py",
-    "app/services/pubsub_service.py",
-]
