@@ -6,7 +6,11 @@ class Settings(BaseSettings):
     PROJECT_NAME: str = "EcoTrack API"
     VERSION: str = "1.0.0"
     API_V1_STR: str = "/api/v1"
-    CORS_ORIGINS: List[str] = ["http://localhost:5173", "http://localhost:3000"]
+    CORS_ORIGINS: List[str] = [
+        "http://localhost:5173",
+        "http://localhost:3000",
+        "https://sakshi-promptwar3.web.app",
+    ]
 
     # GCP Project ID
     GCP_PROJECT_ID: str = "dummy-project-id"
