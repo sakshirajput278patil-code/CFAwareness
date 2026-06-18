@@ -1,0 +1,85 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  backend-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          
+      - name: Install dependencies
+        run: |
+          cd backend
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          
+      - name: Lint and Format (Ruff & Black)
+        run: |
+          cd backend
+          ruff check .
+          black --check .
+          
+      - name: Test with pytest
+        run: |
+          cd backend
+          pytest tests/ -v --cov=app --cov-fail-under=90
+
+  frontend-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          
+      - name: Install dependencies
+        run: |
+          cd frontend
+          npm ci
+          
+      - name: Lint (ESLint)
+        run: |
+          cd frontend
+          npm run lint
+          
+      - name: Build
+        run: |
+          cd frontend
+          npm run build
+
+  security-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          
+      - name: Backend Security Scan
+        run: |
+          pip install pip-audit
+          pip-audit -r backend/requirements.txt
+          
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          
+      - name: Frontend Security Scan
+        run: |
+          cd frontend
+          npm audit --audit-level=high
