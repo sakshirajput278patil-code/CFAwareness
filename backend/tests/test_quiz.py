@@ -1,4 +1,3 @@
-import pytest
 from app.models.quiz_models import QuizSubmission, QuizSubmissionItem
 from app.quiz.engine import score_quiz, determine_literacy_band
 from app.quiz.questions import get_all_questions

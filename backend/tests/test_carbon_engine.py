@@ -1,4 +1,3 @@
-import pytest
 from app.models.carbon_models import (
     CarbonCalculationInput,
     TransportInput,
