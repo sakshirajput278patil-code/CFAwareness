@@ -4,6 +4,7 @@ from app.models.carbon_models import DietType, ConsumptionType
 
 client = TestClient(app)
 
+
 def test_health_check():
     response = client.get("/health")
     assert response.status_code == 200
@@ -17,20 +18,13 @@ def test_calculate_endpoint():
             "bus_km_per_week": 0,
             "train_km_per_week": 0,
             "short_haul_flights_per_year": 1,
-            "long_haul_flights_per_year": 0
+            "long_haul_flights_per_year": 0,
         },
-        "energy": {
-            "electricity_kwh_per_month": 200,
-            "natural_gas_kwh_per_month": 500
-        },
-        "diet": {
-            "diet_type": DietType.OMNIVORE_LOW_MEAT
-        },
-        "consumption": {
-            "consumption_type": ConsumptionType.AVERAGE
-        }
+        "energy": {"electricity_kwh_per_month": 200, "natural_gas_kwh_per_month": 500},
+        "diet": {"diet_type": DietType.OMNIVORE_LOW_MEAT},
+        "consumption": {"consumption_type": ConsumptionType.AVERAGE},
     }
-    
+
     response = client.post("/api/v1/calculate/", json=payload)
     assert response.status_code == 200
     data = response.json()

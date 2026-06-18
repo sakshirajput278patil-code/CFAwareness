@@ -4,6 +4,7 @@ from app.core.config import settings
 
 logger = logging.getLogger(__name__)
 
+
 def stream_to_bigquery(table_id: str, row_data: Dict[str, Any]):
     """
     Streams anonymized aggregate analytics to BigQuery.
@@ -15,6 +16,7 @@ def stream_to_bigquery(table_id: str, row_data: Dict[str, Any]):
 
     try:
         from google.cloud import bigquery
+
         client = bigquery.Client(project=settings.GCP_PROJECT_ID)
         errors = client.insert_rows_json(table_id, [row_data])
         if errors:

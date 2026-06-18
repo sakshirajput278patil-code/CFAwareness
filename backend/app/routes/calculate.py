@@ -5,6 +5,7 @@ from app.core.security import limiter
 
 router = APIRouter(prefix="/calculate", tags=["Carbon Calculator"])
 
+
 @router.post("/", response_model=CarbonCalculationResult)
 @limiter.limit("30/minute")
 def calculate_footprint(request: Request, payload: CarbonCalculationInput):

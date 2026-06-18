@@ -7,11 +7,14 @@ from app.core.security import limiter
 
 router = APIRouter(prefix="/insights", tags=["Insights"])
 
+
 class InsightsRequest(BaseModel):
     breakdown: CarbonCalculationBreakdown
 
+
 class InsightsResponse(BaseModel):
     insights: List[str]
+
 
 @router.post("/", response_model=InsightsResponse)
 @limiter.limit("10/minute")
