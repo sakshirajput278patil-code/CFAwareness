@@ -15,7 +15,7 @@ export const QuizCard: React.FC = () => {
     const fetchQuestions = async () => {
       try {
         const data = await apiClient.getQuizQuestions();
-        setQuestions(data);
+        setQuestions(data as {id: number; question_text: string; options: string[]}[]);
       } catch {
         setError('Failed to load quiz questions.');
       } finally {
@@ -67,7 +67,7 @@ export const QuizCard: React.FC = () => {
         <div className="space-y-4">
           <h3 className="text-xl font-medium border-b border-secondary-light pb-2">Review Answers</h3>
           {quizResult.details.map((detail: QuizResultDetail, index: number) => {
-            const question = questions.find((q: {id: number; question_text: string; options: string[]}) => q.id === detail.question_id);
+            const question = questions.find((q: {id: number; question_text: string; options: string[]}) => String(q.id) === String(detail.question_id));
             if (!question) return null;
             return (
               <div key={index} className={`p-4 rounded-xl border ${detail.is_correct ? 'border-secondary-light bg-secondary/10' : 'border-red-200 bg-red-50'}`}>

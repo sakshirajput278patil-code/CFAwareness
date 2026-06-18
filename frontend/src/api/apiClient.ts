@@ -13,7 +13,7 @@ export const apiClient = {
     return response.json();
   },
 
-  async getInsights(breakdown: Record<string, unknown>): Promise<{ insights: string[] }> {
+  async getInsights(breakdown: unknown): Promise<{ insights: string[] }> {
     const response = await fetch(`${API_BASE_URL}/insights/`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

@@ -71,7 +71,7 @@ interface CarbonState {
   updateConsumption: (data: ConsumptionInput) => void;
   setCalculationResult: (result: CarbonCalculationResult) => void;
   setInsights: (insights: string[]) => void;
-  setQuizResult: (result: QuizResult) => void;
+  setQuizResult: (result: QuizResult | null) => void;
 }
 
 export const useCarbonStore = create<CarbonState>((set) => ({
