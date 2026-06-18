@@ -9,9 +9,6 @@
     "lint": "cd frontend && npm run lint",
     "preview": "cd frontend && npm run preview"
   },
-  "workspaces": [
-    "frontend"
-  ],
   "engines": {
     "node": ">=20.0.0"
   },

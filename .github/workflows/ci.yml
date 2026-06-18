@@ -32,7 +32,7 @@ jobs:
       - name: Test with pytest
         run: |
           cd backend
-          PYTHONPATH=. pytest --asyncio-mode=strict tests/ -v --cov=app --cov-fail-under=70 --cov-omit="app/services/bigquery_service.py,app/services/firestore_service.py,app/services/pubsub_service.py"
+          PYTHONPATH=. pytest --asyncio-mode=strict tests/ -v --cov=app --cov-config=.coveragerc --cov-fail-under=70
 
   frontend-test:
     runs-on: ubuntu-latest
@@ -82,4 +82,5 @@ jobs:
       - name: Frontend Security Scan
         run: |
           cd frontend
+          npm install --package-lock-only
           npm audit --audit-level=high
