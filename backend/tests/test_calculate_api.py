@@ -1,3 +1,4 @@
+import math
 from fastapi.testclient import TestClient
 from app.main import app
 from app.models.carbon_models import DietType, ConsumptionType
@@ -32,4 +33,4 @@ def test_calculate_endpoint():
     assert "breakdown" in data
     assert "global_average_comparison_percent" in data
     assert "paris_target_comparison_percent" in data
-    assert data["breakdown"]["diet_kg_co2e"] == 1642.0
+    assert math.isclose(data["breakdown"]["diet_kg_co2e"], 1642.0, rel_tol=1e-6)
