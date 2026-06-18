@@ -1,2 +1,10 @@
 [tool.pytest.ini_options]
 pythonpath = ["."]
+asyncio_mode = "auto"
+
+[tool.coverage.run]
+omit = [
+    "app/services/bigquery_service.py",
+    "app/services/firestore_service.py",
+    "app/services/pubsub_service.py",
+]
