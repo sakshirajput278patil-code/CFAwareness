@@ -1,9 +1,9 @@
-import { CarbonCalculationResult, QuizResult, QuizResultDetail } from '../store/carbonStore';
+import { CarbonCalculationResult, QuizResult } from '../store/carbonStore';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api/v1';
 
 export const apiClient = {
-  async calculateFootprint(payload: any): Promise<CarbonCalculationResult> {
+  async calculateFootprint(payload: Record<string, unknown>): Promise<CarbonCalculationResult> {
     const response = await fetch(`${API_BASE_URL}/calculate/`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -13,7 +13,7 @@ export const apiClient = {
     return response.json();
   },
 
-  async getInsights(breakdown: any): Promise<{ insights: string[] }> {
+  async getInsights(breakdown: Record<string, unknown>): Promise<{ insights: string[] }> {
     const response = await fetch(`${API_BASE_URL}/insights/`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -23,7 +23,7 @@ export const apiClient = {
     return response.json();
   },
 
-  async getQuizQuestions(): Promise<any[]> {
+  async getQuizQuestions(): Promise<Record<string, unknown>[]> {
     const response = await fetch(`${API_BASE_URL}/quiz/questions`, {
       method: 'GET',
     });
@@ -31,7 +31,7 @@ export const apiClient = {
     return response.json();
   },
 
-  async submitQuiz(answers: any[]): Promise<QuizResult> {
+  async submitQuiz(answers: Record<string, unknown>[]): Promise<QuizResult> {
     const response = await fetch(`${API_BASE_URL}/quiz/submit`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

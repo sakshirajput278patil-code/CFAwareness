@@ -19,7 +19,7 @@ export const Calculator: React.FC = () => {
       // Also fetch insights
       const insightsResult = await apiClient.getInsights(result.breakdown);
       setInsights(insightsResult.insights);
-    } catch (err) {
+    } catch {
       setError('Failed to calculate footprint. Please try again.');
     } finally {
       setLoading(false);
@@ -82,7 +82,7 @@ export const Calculator: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label htmlFor="diet_type" className="label-text">Diet</label>
-              <select id="diet_type" className="input-field" value={diet.diet_type} onChange={(e) => updateDiet({ diet_type: e.target.value as any })}>
+              <select id="diet_type" className="input-field" value={diet.diet_type} onChange={(e) => updateDiet({ diet_type: e.target.value as 'vegan' | 'vegetarian' | 'omnivore_low_meat' | 'omnivore_high_meat' })}>
                 <option value="vegan">Vegan</option>
                 <option value="vegetarian">Vegetarian</option>
                 <option value="omnivore_low_meat">Omnivore (Low Meat)</option>
@@ -91,7 +91,7 @@ export const Calculator: React.FC = () => {
             </div>
             <div>
               <label htmlFor="consumption_type" className="label-text">Shopping Habits</label>
-              <select id="consumption_type" className="input-field" value={consumption.consumption_type} onChange={(e) => updateConsumption({ consumption_type: e.target.value as any })}>
+              <select id="consumption_type" className="input-field" value={consumption.consumption_type} onChange={(e) => updateConsumption({ consumption_type: e.target.value as 'minimalist' | 'average' | 'high' })}>
                 <option value="minimalist">Minimalist</option>
                 <option value="average">Average</option>
                 <option value="high">High</option>

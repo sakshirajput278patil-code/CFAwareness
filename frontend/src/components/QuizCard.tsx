@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useCarbonStore } from '../store/carbonStore';
+import { useCarbonStore, QuizResultDetail } from '../store/carbonStore';
 import { apiClient } from '../api/apiClient';
 
 export const QuizCard: React.FC = () => {
   const { quizResult, setQuizResult } = useCarbonStore();
-  const [questions, setQuestions] = useState<any[]>([]);
+  const [questions, setQuestions] = useState<{id: number; question_text: string; options: string[]}[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [answers, setAnswers] = useState<any[]>([]);
+  const [answers, setAnswers] = useState<{question_id: number; selected_option_index: number}[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -15,7 +15,7 @@ export const QuizCard: React.FC = () => {
       try {
         const data = await apiClient.getQuizQuestions();
         setQuestions(data);
-      } catch (err) {
+      } catch {
         setError('Failed to load quiz questions.');
       } finally {
         setLoading(false);
@@ -42,7 +42,7 @@ export const QuizCard: React.FC = () => {
       try {
         const result = await apiClient.submitQuiz(answers);
         setQuizResult(result);
-      } catch (err) {
+      } catch {
         setError('Failed to submit quiz.');
       } finally {
         setLoading(false);
@@ -65,7 +65,7 @@ export const QuizCard: React.FC = () => {
         
         <div className="space-y-4">
           <h3 className="text-xl font-medium border-b border-secondary-light pb-2">Review Answers</h3>
-          {quizResult.details.map((detail: any, index: number) => {
+          {quizResult.details.map((detail: QuizResultDetail, index: number) => {
             const question = questions.find(q => q.id === detail.question_id);
             if (!question) return null;
             return (
