@@ -1,4 +1,4 @@
-import pytest
+import math
 from app.models.carbon_models import (
     CarbonCalculationInput,
     TransportInput,
@@ -28,11 +28,11 @@ def test_calculate_total_carbon_footprint_zero():
     result = calculate_total_carbon_footprint(input_data)
 
     # 0 for transport + 0 for energy + 912.0 for vegan diet + 1000.0 for minimalist consumption
-    assert result.total_kg_co2e == pytest.approx(1912.0)
-    assert result.breakdown.transport_kg_co2e == pytest.approx(0.0)
-    assert result.breakdown.energy_kg_co2e == pytest.approx(0.0)
-    assert result.breakdown.diet_kg_co2e == pytest.approx(912.0)
-    assert result.breakdown.consumption_kg_co2e == pytest.approx(1000.0)
+    assert math.isclose(result.total_kg_co2e, 1912.0, rel_tol=1e-6)
+    assert math.isclose(result.breakdown.transport_kg_co2e, 0.0, abs_tol=1e-6)
+    assert math.isclose(result.breakdown.energy_kg_co2e, 0.0, abs_tol=1e-6)
+    assert math.isclose(result.breakdown.diet_kg_co2e, 912.0, rel_tol=1e-6)
+    assert math.isclose(result.breakdown.consumption_kg_co2e, 1000.0, rel_tol=1e-6)
 
 
 def test_calculate_total_carbon_footprint_average():
@@ -65,14 +65,20 @@ def test_calculate_total_carbon_footprint_average():
         transport_expected + energy_expected + diet_expected + consumption_expected, 2
     )
 
-    assert result.total_kg_co2e == pytest.approx(total_expected)
-    assert result.breakdown.transport_kg_co2e == pytest.approx(transport_expected)
-    assert result.breakdown.energy_kg_co2e == pytest.approx(energy_expected)
+    assert math.isclose(result.total_kg_co2e, total_expected, rel_tol=1e-6)
+    assert math.isclose(
+        result.breakdown.transport_kg_co2e, transport_expected, rel_tol=1e-6
+    )
+    assert math.isclose(result.breakdown.energy_kg_co2e, energy_expected, rel_tol=1e-6)
 
     # Check percentages
-    assert result.global_average_comparison_percent == pytest.approx(
-        round((total_expected / 4000.0) * 100, 2)
+    assert math.isclose(
+        result.global_average_comparison_percent,
+        round((total_expected / 4000.0) * 100, 2),
+        rel_tol=1e-6,
     )
-    assert result.paris_target_comparison_percent == pytest.approx(
-        round((total_expected / 2000.0) * 100, 2)
+    assert math.isclose(
+        result.paris_target_comparison_percent,
+        round((total_expected / 2000.0) * 100, 2),
+        rel_tol=1e-6,
     )
