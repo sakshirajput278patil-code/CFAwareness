@@ -4,6 +4,14 @@ from typing import List
 from app.models.carbon_models import CarbonCalculationBreakdown
 from app.core.config import settings
 
+try:
+    import vertexai
+    from vertexai.generative_models import GenerativeModel
+
+    VERTEXAI_AVAILABLE = True
+except ImportError:
+    VERTEXAI_AVAILABLE = False
+
 logger = logging.getLogger(__name__)
 
 
@@ -49,13 +57,10 @@ async def generate_personalized_insights(
     Calls Vertex AI Gemini to generate insights with a strict 3s timeout fallback.
     If USE_GEMINI feature flag is disabled, it uses the deterministic fallback immediately.
     """
-    if not settings.USE_GEMINI:
+    if not settings.USE_GEMINI or not VERTEXAI_AVAILABLE:
         return generate_deterministic_insights(breakdown)
 
     try:
-        import vertexai
-        from vertexai.generative_models import GenerativeModel
-
         vertexai.init(project=settings.GCP_PROJECT_ID, location=settings.GCP_REGION)
         model = GenerativeModel("gemini-1.5-flash-001")
 
@@ -76,6 +81,6 @@ async def generate_personalized_insights(
     except asyncio.TimeoutError:
         logger.warning("Gemini API timed out. Using deterministic fallback.")
         return generate_deterministic_insights(breakdown)
-    except Exception as e:
-        logger.warning(f"Gemini API failed: {str(e)}. Using deterministic fallback.")
+    except Exception:  # noqa: BLE001
+        logger.warning("Gemini API call failed. Using deterministic fallback.")
         return generate_deterministic_insights(breakdown)
